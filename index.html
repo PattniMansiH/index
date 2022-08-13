@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOTE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<style>
+    * {
+        margin: 0%;
+        padding: 0%;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        background-color: #88abff;
+    }
+
+    .wrapper {
+        margin: 50px;
+        display: grid;
+        gap: 15px;
+        grid-template-columns: repeat(auto-fill, 265px);
+    }
+
+    .wrapper li {
+        height: 250px;
+        background-color: #fff;
+        list-style: none;
+        border-radius: 5px;
+        padding: 15px 20px 20px;
+    }
+
+    .add-box,
+    header,
+    .popup,
+    .icon,
+    .bottem-content,
+    .setting,
+    .menu li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between
+    }
+
+    .add-box {
+        justify-content: center;
+        flex-direction: column;
+        cursor: pointer;
+    }
+
+    .add-box .icon {
+        border: 2px dashed #88abff;
+        height: 78px;
+        width: 78px;
+        font-size: 40px;
+        border-radius: 50%;
+        color: #88abff;
+        justify-content: center;
+    }
+
+    .add-box p {
+        color: #88abff;
+        font-weight: 500;
+        margin-top: 15px;
+    }
+
+    /* .wrapper, .note{
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+    } */
+    .note .details {
+        max-height: 165px;
+        /* overflow-y: auto; */
+    }
+
+    .note p {
+        font-size: 20px;
+        font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 300px;
+        max-height: 100px;
+    }
+    
+    .note span {
+        width: 100px;
+        color: #575757;
+        font-size: 14px;
+        display: block;
+        margin-top: 5px;
+        /* white-space: nowrap; */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 300px;
+        max-height: 120px;
+
+    }
+
+    .note .bottem-content {
+
+        padding-top: 10px;
+        border-top: 1px solid #ccc;
+    }
+
+    .bottem-content span {
+        color: #6d6d6d;
+        font-size: 12px;
+    }
+
+    .bottem-content,
+    .setting i {
+        color: #6d6d6d;
+        font-size: 15px;
+        cursor: pointer;
+    }
+
+    .setting .menu {
+        position: absolute;
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+        bottom: 0%;
+        border-radius: 4px;
+        padding: 5px 0;
+        right: -5px;
+        transform: scale(0);
+        transform-origin: bottom right;
+        transition: transform 0.8s ease;
+        background-color: #fff;
+        /* width: 100vw; */
+    }
+
+    .setting.show .menu {
+        transform: scale(1);
+    }
+
+    .setting,
+    .menu li {
+        height: 25px;
+        border-radius: 0%;
+        cursor: pointer;
+        padding: 17px 15px;
+        font-size: 16px;
+        justify-content: flex-start;
+    }
+
+    .setting {
+        position: relative;
+    }
+
+    .menu li:hover {
+        background: #f5f5f5;
+
+    }
+
+    .menu li i {
+        padding-right: 8px;
+    }
+
+    .popup-box {
+        position: fixed;
+        top: 0%;
+        left: 0%;
+        z-index: 2;
+        background-color: rgba(0, 0, 0, 0.4);
+        height: 100%;
+        width: 100%;
+        padding: 200px;
+    }
+
+    .popup {
+        /* background-color: red; */
+        position: absolute;
+
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 3;
+        max-width: 600px;
+        width: 90%;
+        justify-content: center;
+    }
+
+    .popup-box,
+    .popup-box,
+    .popup {
+        opacity: 0;
+        pointer-events: none;
+        transition: all 1.25s ease;
+    }
+
+    .popup-box.show,
+    .popup-box.show,
+    .popup {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .popup,
+    .content {
+        border-radius: 5px;
+        background: #fff;
+        width: calc(100% - 15px);
+    }
+
+    .popup,
+    .content header {
+        border-bottom: 1px solid #ccc;
+        padding: 15px 20px;
+    }
+
+    .content header p {
+        font-weight: 500;
+        font-size: 20px;
+    }
+
+    .content header i {
+        color: #8b8989;
+        cursor: pointer;
+        font-size: 20px;
+    }
+
+    .content form {
+        margin: 15px 25px 35px;
+    }
+
+    .content form :where(input, textarea) {
+        width: 100%;
+        border: 1px solid #999;
+        border-radius: 4px;
+        outline: none;
+        height: 50px;
+        font-size: 17px;
+        padding: 0 15px;
+    }
+
+    .content form .row {
+        margin-bottom: 20px;
+    }
+
+    form .row label {
+        display: block;
+        font-size: 18px;
+        margin-bottom: 6px;
+    }
+
+    .content form textarea {
+        height: 150px;
+        resize: none;
+        padding: 8px 15px;
+    }
+
+    .content form button {
+        width: 100%;
+        height: 50px;
+        border: none;
+        outline: none;
+        color: #fff;
+        font-size: 17px;
+        border-radius: 4px;
+        cursor: pointer;
+        background-color: #88abff;
+    }
+</style>
+
+<body>
+    <div class="popup-box">
+        <div class="popup">
+            <div class="content">
+                <header>
+                    <p>Add a new Note</p>
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </header>
+                <form action="#">
+                    <div class="row title">
+                        <label>Title</label>
+                        <input type="text">
+                    </div>
+                    <div class="row     discription">
+                        <label>Discription</label>
+                        <!-- <input type="text"> -->
+                        <textarea></textarea>
+                    </div>
+                    <button>Add Note</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="wrapper">
+        <li class="add-box">
+            <div class="icon"><i class="fa fa-plus" aria-hidden="true"></i></div>
+            <p>Add New Note</p>
+        </li>
+
+
+    </div>
+    <script>
+        const addBox = document.querySelector(".add-box",)
+        popupBox = document.querySelector(".popup-box"),
+            popupTitle = popupBox.querySelector("header p"),
+            colseIcon = popupBox.querySelector("header i"),
+            titleTag = popupBox.querySelector("input"),
+            descTag = popupBox.querySelector("textarea"),
+            addbtn = popupBox.querySelector("button");
+
+        const months = ["January", "February", "March", "April", "May", "June", "July",
+            "August", "Setember", "October", "November", "December"]; ''
+        const notes = JSON.parse(localStorage.getItem("notes") || "[]")
+        let isUpdate = false, updateId;
+
+        addBox.addEventListener("click", () => {
+            titleTag.focus();
+            popupBox.classList.add("show");
+        });
+        colseIcon.addEventListener("click", () => {
+            isUpdate = false;
+            titleTag.value = "";
+            descTag.value = "";
+            addbtn.innerText = "Add Note";
+            popupTitle.innerText = "Add a new Note";
+
+            popupBox.classList.remove("show");
+        });
+
+        function showNotes() {
+            document.querySelectorAll(".note").forEach(note => note.remove())
+            notes.forEach((note, index) => {
+                // console.log(note)
+                let liTag = `<li class="note">
+            <div class="details">
+                <p>${note.title}</p>
+                <span>${note.description}</span>
+            </div>
+            <div class="bottem-content">
+                <span>${note.date}</span>
+                <div class="setting">
+                    <i onclick="showMenu(this)"  class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                    <ul class="menu">
+                        <li onclick="updateNote(${index}, '${note.title}', '${note.description}')"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</li>
+                        <li onclick="deleteNote(${index})"><i class="fa fa-trash" aria-hidden="true"></i>delete</li>
+
+                    </ul>
+                </div>
+            </div>
+        </li>`;
+                addBox.insertAdjacentHTML("afterend", liTag)
+            });
+        }
+        showNotes();
+
+        function showMenu(elem) {
+            elem.parentElement.classList.add("show")
+            document.addEventListener("click", e => {
+                //removeing show class
+                if (e.target.tagName != "I" || e.target != elem) {
+                    elem.parentElement.classList.remove("show")
+
+                }
+            });
+        }
+
+        function deleteNote(noteId) {
+            let confirmDel = confirm("Are you sure want to delete this note ?")
+            if (!confirmDel) return;
+            notes.splice(noteId, 1);//removing note from array 
+            localStorage.setItem("notes", JSON.stringify(notes)); //saving Updatenotes to localstrorag
+            showNotes();
+        }
+
+        function updateNote(noteId, title, desc) {
+            isUpdate = true;
+            updateId = noteId;
+            addBox.click();
+            titleTag.value = title;
+            descTag.value = desc;
+            addbtn.innerText = "Update Note";
+            popupTitle.innerText = "Update a Note";
+
+            console.log(noteId, title, desc)
+        }
+
+        addbtn.addEventListener("click", e => {
+            e.preventDefault();
+            let noteTitle = titleTag.value,
+                noteDesc = descTag.value;
+            if (noteTitle || noteDesc) {
+                let dateObj = new Date();
+                month = months[dateObj.getMonth()],
+                    day = dateObj.getDate(),
+                    year = dateObj.getFullYear();
+
+                let noteInfo = {
+                    title: noteTitle, description: noteDesc,
+                    date: `${month} ${day} ${year}`
+                }
+                //console.log(noteInfo)
+                if (!isUpdate) {
+                    notes.push(noteInfo) //add a new note
+                }
+                else {
+                    isUpdate = false;
+                    notes[updateId] = noteInfo //updateing specifide note
+                }
+
+
+
+                localStorage.setItem("notes", JSON.stringify(notes)); //saving notes to localstrorag
+                colseIcon.click();
+                showNotes();
+            }
+        });
+    </script>
+</body>
+
+</html>
